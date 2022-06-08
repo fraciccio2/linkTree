@@ -13,6 +13,7 @@ export class SignUpUiComponent {
   @Input() formControlNameEmail: string | null = null;
   @Input() formControlNamePass: string | null = null;
   @Input() formControlNameCheck: string | null = null;
+  @Input() termsAndConditions: Object | undefined;
   @Output() navigate = new EventEmitter<void>();
   @Output() signIn = new EventEmitter<void>();
 

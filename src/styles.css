@@ -1,10 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 .cursor-pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }
+
+.cursor-default {
+    cursor: default !important;
+  }
 
 .text-align-c{
   text-align: center;
+}
+
+.p-0{
+  padding: 0;
 }
 
 .mr-1 {

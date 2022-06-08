@@ -28,10 +28,11 @@
         <div class="form-check mt-5">
           <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [formControlName]="formControlNameCheck">
           <label class="form-check-label" for="flexCheckChecked">
-            By creating an account you are agreeing to our Terms and Conditions
+            By creating an account you are agreeing to our 
+            <button class="btn btn-link p-0" style="margin-bottom: 0.32rem" data-bs-toggle="modal" data-bs-target="#termModal">Terms and Conditions</button> 
           </label>
         </div>
-        <div class="mt-5">
+        <div class="mt-5" [ngStyle]="{'cursor': formSign.invalid || formSign.get('check')?.value === false ? 'not-allowed': 'pointer'}">
           <button class="btn fc-eff0ec br-45" style="width: 100% !important;" (click)="signIn.emit()" [disabled]="formSign.invalid || formSign.get('check')?.value === false">Sign up with email</button>
         </div>
         <p class="text-black text-center mt-5">
@@ -41,6 +42,21 @@
     </div>
     <div class="col-3">
       <img src="assets/images/business-4811925_960_720.png">
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="termModal" tabindex="-1" aria-labelledby="termModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="termModalLabel">Terms and Conditions</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" [innerHTML]="termsAndConditions">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>

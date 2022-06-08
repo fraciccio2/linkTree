@@ -40,7 +40,7 @@ export class LogInFeatureComponent {
     const email = this.formLog.get([this.formControlNameUser])?.value;
     const password = this.formLog.get([this.formControlNamePass])?.value;
     this.authService.logIn(email, password).then(() =>{
-      //this.router.navigate(); TODO rivedere dove andare
+      this.router.navigate(['./admin']).catch(console.error);
     }).catch((err) =>{
       switch (err.code){
         case 'auth/invalid-email': {

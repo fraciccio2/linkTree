@@ -15,9 +15,9 @@
     <input class="form-control fc-eff0ec" [type]="isHide ? 'password' : 'text'" placeholder="Password" [formControlName]="formControlNamePass">
     <button class="input-group-text fc-eff0ec" (click)="isHide = !isHide"><i [ngClass]="isHide ? 'bi bi-eye' : 'bi bi-eye-slash'"></i></button>
   </div>
-  <div class="mt-5">
+  <div class="mt-5" [ngStyle]="{'cursor': formLog.invalid ? 'not-allowed': 'pointer'}">
     <button class="btn fc-eff0ec br-45" style="width: 100% !important;" (click)="logIn.emit()" [disabled]="formLog.invalid">Log In</button>
-    <p class="text-danger text-align-c mt-1" *ngIf="logInErrorMessage">{{logInErrorMessage}}</p>
+    <p class="text-danger text-align-c mt-1 cursor-default" *ngIf="logInErrorMessage">{{logInErrorMessage}}</p>
   </div>
   <p class="text-black text-center mt-5">Don't have a Linktree account?
     <a class="text-sm text-pansy inline-flex underline cursor-pointer" (click)="navigate.emit()"><span>Create One</span></a>

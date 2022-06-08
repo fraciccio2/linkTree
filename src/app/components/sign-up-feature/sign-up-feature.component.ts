@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth-service/auth.service";
+import {HttpClient} from '@angular/common/http'
 
 @Component({
   selector: 'app-sign-up-feature',
@@ -13,13 +14,14 @@ import {AuthService} from "../../services/auth-service/auth.service";
       [formControlNamePass]="formControlNamePass"
       [formControlNameCheck]="formControlNameCheck"
       [formControlNameEmail]="formControlNameEmail"
+      [termsAndConditions]="termsAndConditions"
       (navigate)="navigate()"
       (signIn)="signIn()"
     ></app-sign-up-ui>
   `,
   styles: []
 })
-export class SignUpFeatureComponent {
+export class SignUpFeatureComponent implements OnInit {
   public formControlNameUser = 'user';
   private formControlUser = new FormControl(undefined, [Validators.required]);
   public formControlNamePass = 'password';
@@ -33,9 +35,16 @@ export class SignUpFeatureComponent {
     [this.formControlNamePass]: this.formControlPass,
     [this.formControlNameEmail]: this.formControlEmail,
     [this.formControlNameCheck]: this.formControlCheck,
-  })
+  });
+  termsAndConditions: Object | undefined;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService, private httpClient: HttpClient) {
+  }
+
+  ngOnInit(): void {
+    this.httpClient.get('assets/files/terms-and-conditions.txt', {responseType: 'text' as 'json'}).subscribe((data) =>{
+      this.termsAndConditions = data;
+    })
   }
 
   navigate() {
