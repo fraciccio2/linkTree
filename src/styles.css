@@ -1,8 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
-.cursor-pointer{
-    cursor: pointer;
+.cursor-pointer {
+  cursor: pointer;
 }
 
-.mr-1{
-    margin-right: 0.25rem;
+.text-align-c{
+  text-align: center;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
+}
+
+.mr-3 {
+  margin-right: 0.75rem;
+}
+
+.ml-3{
+  margin-left: 0.75rem;
+}
+
+.h-50{
+  height: 50px !important;
+}
+
+.fc-eff0ec{
+  background-color: #eff0ec !important;
+}
+
+.br-45{
+  border-radius: 45px !important;
+}
+
+.pr-10{
+  padding-right: 10%;
+}
+
+.pl-10{
+  padding-left: 10%;
+}
+
+.m-center {
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 10%;
 }
