@@ -17,8 +17,8 @@ export class DashboardSideFeatureComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((val) =>{
-      debugger
+    this.router.events.subscribe((val: any) => {
+      this.isHide = !(val.url === 'log-in' || val.url === 'sign-up' || val.url === '');
     });
   }
 
