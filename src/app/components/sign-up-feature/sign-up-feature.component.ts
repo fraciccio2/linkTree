@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth-service/auth.service";
 import {HttpClient} from '@angular/common/http'
+import {UserDataAccessService} from "../user-data-access/user-data-access.service";
 
 @Component({
   selector: 'app-sign-up-feature',
@@ -38,7 +39,10 @@ export class SignUpFeatureComponent implements OnInit {
   });
   termsAndConditions: Object | undefined;
 
-  constructor(private router: Router, private authService: AuthService, private httpClient: HttpClient) {
+  constructor(private router: Router,
+              private authService: AuthService,
+              private httpClient: HttpClient,
+              private userDataAccess: UserDataAccessService) {
   }
 
   ngOnInit(): void {
@@ -55,7 +59,11 @@ export class SignUpFeatureComponent implements OnInit {
     const email = this.formSign.get([this.formControlNameEmail])?.value;
     const password = this.formSign.get([this.formControlNamePass])?.value;
     this.authService.signIn(email, password).then(() => {
-      this.router.navigate(['./']).catch(console.error);
+      this.authService.user$.subscribe((user) =>{
+        localStorage.setItem('userId', user.uid);
+        this.userDataAccess.saveNickName(this.formSign.get(this.formControlNameUser)?.value);
+      })
+      this.router.navigate(['./admin']).catch(console.error);
     }).catch(console.error);
   }
 

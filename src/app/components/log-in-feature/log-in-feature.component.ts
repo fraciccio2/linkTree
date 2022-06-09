@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth-service/auth.service";
+import {UserDataAccessService} from "../user-data-access/user-data-access.service";
 
 @Component({
   selector: 'app-log-in-feature',
@@ -29,7 +30,9 @@ export class LogInFeatureComponent {
   })
   logInErrorMessage: string | undefined;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router,
+              private authService: AuthService,
+              private userDataAccess: UserDataAccessService) {
   }
 
   navigate(){
@@ -40,7 +43,10 @@ export class LogInFeatureComponent {
     const email = this.formLog.get([this.formControlNameUser])?.value;
     const password = this.formLog.get([this.formControlNamePass])?.value;
     this.authService.logIn(email, password).then(() =>{
-      this.router.navigate(['./admin']).catch(console.error);
+      this.authService.user$.subscribe((user) =>{
+        localStorage.setItem('userId', user.uid);
+        this.router.navigate(['./admin']).catch(console.error);
+      })
     }).catch((err) =>{
       switch (err.code){
         case 'auth/invalid-email': {
