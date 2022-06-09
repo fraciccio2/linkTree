@@ -21,6 +21,7 @@
   <div class="dropdown cursor-pointer" ngbDropdown>
     <a class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" ngbDropdownToggle>
       <img src="assets/images/no-user.png" alt="" width="40px" height="40px" class="rounded-circle me-2" *ngIf="!userImage">
+      <img [src]="userImage" *ngIf="userImage" alt="" width="40px" height="40px" class="rounded-circle me-2">
       <strong>{{nickname}}</strong>
     </a>
     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" ngbDropdownMenu>

@@ -15,6 +15,7 @@ import {ChangeImageModalComponent} from "../../modals/change-image-modal/change-
     <app-dashboard-side-ui
       [isHide]="isHide"
       [nickname]="nickname"
+      [userImage]="userImage"
       (signOut)="signOut()"
       (changeUsername)="changeUsername()"
       (changeImage)="changeImage()"
@@ -25,11 +26,13 @@ import {ChangeImageModalComponent} from "../../modals/change-image-modal/change-
 export class DashboardSideFeatureComponent implements OnInit {
   isHide: boolean | undefined;
   nickname: string | null = null;
+  userImage: string | undefined;
+  id: string | null | undefined;
   public formControlNameNickname = 'nickname';
   private formControlNickname = new FormControl('', Validators.required);
   formGroupNickname = new FormGroup({
     [this.formControlNameNickname]: this.formControlNickname
-  })
+  });
 
   constructor(private router: Router,
               private authService: AuthService,
@@ -39,11 +42,11 @@ export class DashboardSideFeatureComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.id = localStorage.getItem('userId');
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((val: any) => {
       this.isHide = !!(val.url.includes('/home') || val.url.includes('/log-in') || val.url.includes('/sign-up'));
-      const id = localStorage.getItem('userId');
-      if (id) {
-        this.userDataAccess.getNickName(id).subscribe((nick) => {
+      if (this.id) {
+        this.userDataAccess.getNickName(this.id).subscribe((nick) => {
           this.nickname = nick;
         })
       }
@@ -74,6 +77,20 @@ export class DashboardSideFeatureComponent implements OnInit {
 
   changeImage(){
     const modal = this.modalService.open(ChangeImageModalComponent);
+    modal.result.then((resp: {file: File}) =>{
+      this.userDataAccess.saveImageIconOnStore(resp.file).then((percent) =>{
+        if(percent.bytesTransferred === percent.totalBytes){
+          const fileRef = this.userDataAccess.url(resp.file.name);
+          fileRef.getDownloadURL().subscribe((url) =>{
+            this.userImage = url;
+            if(this.id){
+              this.userDataAccess.saveImageIconOnDataBase(this.id, url);
+              this.ngOnInit();
+            }
+          })
+        }
+      })
+    }).catch(() => console.log(''));
   }
 
 }

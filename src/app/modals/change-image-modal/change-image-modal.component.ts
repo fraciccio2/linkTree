@@ -24,19 +24,20 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
       <img [src]="photo" *ngIf="photo" alt="" width="50%" height="50%" class="center-img">
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="close()">Change my profiles's username</button>
+      <button type="button" class="btn btn-success" (click)="close()">Change my profiles's image</button>
     </div>
   `,
   styles: []
 })
 export class ChangeImageModalComponent {
   photo: string | ArrayBuffer | null | undefined;
+  fileToSave: File | undefined;
 
   constructor(private modalService: NgbActiveModal) {
   }
 
   close() {
-    this.modalService.close();
+    this.modalService.close({fileToSave: this.fileToSave});
   }
 
   dismiss() {
@@ -44,6 +45,7 @@ export class ChangeImageModalComponent {
   }
 
   fileSelected(event: any) {
+    this.fileToSave = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (data) => this.photo = data.target?.result;
