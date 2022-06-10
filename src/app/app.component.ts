@@ -9,7 +9,7 @@ import {UserDataAccessService} from "./components/user-data-access/user-data-acc
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isHide: boolean | undefined;
+  isHide = true;
 
   constructor(private router: Router,
               private userDataAccess: UserDataAccessService) {
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((val: any) => {
-      this.isHide = !!(val.url.includes('/home') || val.url.includes('/log-in') || val.url.includes('/sign-up'));
+      this.isHide = !!(val.url.includes('/home') || val.url.includes('/log-in') || val.url.includes('/sign-up') || val.url === '/');
       this.userDataAccess.sideActive.next(val.url);
     });
   }

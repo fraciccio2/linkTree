@@ -23,7 +23,6 @@ export class AuthService {
   }
 
   signOut(){
-    this.afAuth.signOut();
-    localStorage.removeItem('userId');
+    return this.afAuth.signOut();
   }
 }

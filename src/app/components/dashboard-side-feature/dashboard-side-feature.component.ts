@@ -6,12 +6,12 @@ import {ChangeImageModalComponent, ChangeUsernameModalComponent, YesNoModalCompo
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {DashboardItemModal} from "../../utils";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-side-feature',
   template: `
     <app-dashboard-side-ui
-      [isHide]="isHide"
       [nickname]="nickname"
       [userImage]="userImage"
       [dashboardItems]="dashboardItems"
@@ -25,7 +25,6 @@ import {DashboardItemModal} from "../../utils";
   styles: []
 })
 export class DashboardSideFeatureComponent implements OnInit {
-  isHide: boolean | undefined;
   nickname: string | null = null;
   userImage: string | null = null;
   id: string | null | undefined;
@@ -43,7 +42,8 @@ export class DashboardSideFeatureComponent implements OnInit {
   constructor(private authService: AuthService,
               public userDataAccess: UserDataAccessService,
               private modalService: NgbModal,
-              private toastService: ToastrService) {
+              private toastService: ToastrService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -59,7 +59,10 @@ export class DashboardSideFeatureComponent implements OnInit {
   }
 
   signOut() {
-    this.authService.signOut();
+    this.authService.signOut().then(() =>{
+      localStorage.removeItem('userId');
+      this.router.navigate(['./log-in']);
+    });
   }
 
   changeUsername() {

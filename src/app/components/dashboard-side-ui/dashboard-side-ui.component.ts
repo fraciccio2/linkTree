@@ -7,7 +7,6 @@ import {DashboardItemModal} from "../../utils";
   styleUrls: ['./dashboard-side-ui.component.css']
 })
 export class DashboardSideUiComponent {
-  @Input() isHide: boolean | undefined;
   @Input() nickname: string | null = null;
   @Input() userImage: string | null = null;
   @Input() dashboardItems: DashboardItemModal[] | undefined;

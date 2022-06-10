@@ -44,8 +44,10 @@ export class LogInFeatureComponent {
     const password = this.formLog.get([this.formControlNamePass])?.value;
     this.authService.logIn(email, password).then(() =>{
       this.authService.user$.subscribe((user) =>{
-        localStorage.setItem('userId', user.uid);
-        this.router.navigate(['./admin']).catch(console.error);
+        if(user){
+          localStorage.setItem('userId', user.uid);
+          this.router.navigate(['./admin']).catch(console.error);
+        }
       })
     }).catch((err) =>{
       switch (err.code){

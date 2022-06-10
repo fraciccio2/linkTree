@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   selector: 'app-add-new-link-page-feature',
   template: `
     <app-add-new-link-page-ui
+      [showPreview]="true"
       [formCollector]="formCollector"
       [formControlNameBackgroundColor]="formControlNameBackgroundColor"
       [formControlNameTextColor]="formControlNameTextColor"
