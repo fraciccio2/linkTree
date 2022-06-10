@@ -22,6 +22,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ChangeUsernameModalComponent} from './modals/change-username-modal/change-username-modal.component';
 import {ToastrModule} from "ngx-toastr";
 import {ChangeImageModalComponent} from './modals/change-image-modal/change-image-modal.component';
+import {YesNoModalComponent} from './modals/yes-no-modal/yes-no-modal.component';
+import {MainPageFeatureComponent} from './components/main-page-feature/main-page-feature.component';
+import {AddNewLinkPageUiComponent} from './components/add-new-link-page-ui/add-new-link-page-ui.component';
+import {
+  AddNewLinkPageFeatureComponent
+} from './components/add-new-link-page-feature/add-new-link-page-feature.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +42,11 @@ import {ChangeImageModalComponent} from './modals/change-image-modal/change-imag
     DashboardSideUiComponent,
     DashboardSideFeatureComponent,
     ChangeUsernameModalComponent,
-    ChangeImageModalComponent
+    ChangeImageModalComponent,
+    YesNoModalComponent,
+    MainPageFeatureComponent,
+    AddNewLinkPageUiComponent,
+    AddNewLinkPageFeatureComponent
   ],
   imports: [
     BrowserModule,

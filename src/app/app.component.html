@@ -1,3 +1,10 @@
-<app-dashboard-side-feature></app-dashboard-side-feature>
-<router-outlet></router-outlet>
-
+<div class="container-fluid h-100">
+  <div class="row justify-content-center h-100">
+    <div class="col-lg-2" *ngIf="!isHide">
+      <app-dashboard-side-feature></app-dashboard-side-feature>
+    </div>
+    <div class="col-lg">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

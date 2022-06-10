@@ -1,32 +1,30 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;" *ngIf="!isHide">
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100 w-100">
   <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
     <span class="fs-4">LinkTree</span>
     <img src="assets/images/icon-link.png" style="width: 24px; height: 24px" alt="">
   </a>
   <hr>
-  <ul class="nav nav-pills flex-column mb-auto cursor-pointer">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page">
-        <i class="bi bi-house-door mr-3"></i>Home
-      </a>
-    </li>
-    <li>
-      <a class="nav-link link-dark">
-        <i class="bi bi-wrench-adjustable-circle mr-3"></i>
-        Customers
+  <ul class="nav nav-pills flex-column mb-auto cursor-pointer" *ngIf="sideActive">
+    <li class="nav-item" *ngFor="let item of dashboardItems" [routerLink]="item.href">
+      <a class="nav-link"
+         [ngClass]="{'active': item.href.includes(sideActive), 'link-dark': !item.href.includes(sideActive)}">
+        <i [class]="item.class"></i>{{item.text}}
       </a>
     </li>
   </ul>
   <hr>
   <div class="dropdown cursor-pointer" ngbDropdown>
-    <a class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" ngbDropdownToggle>
-      <img src="assets/images/no-user.png" alt="" width="40px" height="40px" class="rounded-circle me-2" *ngIf="!userImage">
+    <a class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
+       ngbDropdownToggle>
+      <img src="assets/images/no-user.png" alt="" width="40px" height="40px" class="rounded-circle me-2"
+           *ngIf="!userImage">
       <img [src]="userImage" *ngIf="userImage" alt="" width="40px" height="40px" class="rounded-circle me-2">
       <strong>{{nickname}}</strong>
     </a>
     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" ngbDropdownMenu>
       <li><a class="dropdown-item" ngbDropdownItem (click)="changeUsername.emit()">Change username</a></li>
       <li><a class="dropdown-item" ngbDropdownItem (click)="changeImage.emit()">Change image</a></li>
+      <li><a class="dropdown-item" ngbDropdownItem (click)="removeImage.emit()" *ngIf="userImage">Remove image</a></li>
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item" ngbDropdownItem (click)="signOut.emit()">Sign out</a></li>
     </ul>
