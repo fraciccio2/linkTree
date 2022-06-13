@@ -28,6 +28,7 @@ import {AddNewLinkPageUiComponent} from './components/add-new-link-page-ui/add-n
 import {
   AddNewLinkPageFeatureComponent
 } from './components/add-new-link-page-feature/add-new-link-page-feature.component';
+import {CardOptionsUiComponent} from './components/card-options-ui/card-options-ui.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {
     YesNoModalComponent,
     MainPageFeatureComponent,
     AddNewLinkPageUiComponent,
-    AddNewLinkPageFeatureComponent
+    AddNewLinkPageFeatureComponent,
+    CardOptionsUiComponent
   ],
   imports: [
     BrowserModule,

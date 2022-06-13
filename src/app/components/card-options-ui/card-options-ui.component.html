@@ -1,0 +1,52 @@
+<form *ngIf="formCollector" [formGroup]="formCollector">
+  <div class="mb-3">
+    <label for="nameCollector" class="form-label">Name collector</label>
+    <input type="email" class="form-control" id="nameCollector"
+           [formControlName]="formControlNameCollector">
+  </div>
+  <div class="row">
+    <div class="mb-3 col">
+      <label for="colorBackground" class="form-label">Background color</label>
+      <input class="form-control form-control-color" id="colorBackground" type="color"
+             title="Choose your color" [formControlName]="formControlNameBackgroundColor">
+    </div>
+    <div class="mb-3 col">
+      <label for="textColor" class="form-label">Text color</label>
+      <input class="form-control form-control-color" id="textColor" type="color"
+             title="Choose your color" [formControlName]="formControlNameTextColor">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-6">
+      <label for="textSize" class="form-label">Select text size</label>
+      <select class="form-select" id="textSize" [formControlName]="formControlNameSize">
+        <option value="" disabled>Select a size</option>
+        <option *ngFor="let size of textSizes" [value]="size">{{size}}</option>
+      </select>
+    </div>
+    <div class="col-6">
+      <label for="allignText" class="form-label">Select where to align the text</label>
+      <div class="btn-group" role="group" aria-label="Basic example" id="allignText">
+        <button type="button" class="btn btn-outline-dark"
+                (click)="formCollector.patchValue({align: 'left'})"><i class="bi bi-text-left"></i>
+        </button>
+        <button type="button" class="btn btn-outline-dark"
+                (click)="formCollector.patchValue({align: 'center'})"><i class="bi bi-text-center"></i>
+        </button>
+        <button type="button" class="btn btn-outline-dark"
+                (click)="formCollector.patchValue({align: 'right'})"><i class="bi bi-text-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3 form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked
+           (input)="showPreview = !showPreview">
+    <label class="form-check-label" for="flexCheckDefault">
+      Show preview
+    </label>
+  </div>
+  <div class="mb-3 mt-5" style="margin-left: 45%; margin-right: 55%">
+    <button class="btn btn-primary" [disabled]="formCollector.invalid">Save</button>
+  </div>
+</form>
