@@ -9,28 +9,31 @@
               <h5 class="card-header">{{('customize the collector') | uppercase}}</h5>
               <div class="card-body">
                 <app-card-options-ui
-                  [textSizes]="textSizes"
+                  [textSizes]="textHeaderSizes"
+                  [isButton]="false"
                   [formControlNameSize]="formControlNameSize"
                   [formControlNameCollector]="formControlNameCollector"
                   [formControlNameTextColor]="formControlNameTextColor"
                   [formControlNameBackgroundColor]="formControlNameBackgroundColor"
-                  [formCollector]="formCollector"
+                  [formCollector]="formHeaderCollector"
                   [formControlNameAlign]="formControlNameAlign"
                   [showPreview]="showPreview"
+                  (changeShowPreview)="changeShowPreview.emit()"
+                  (saveCollector)="saveHeaderCollector.emit()"
                 ></app-card-options-ui>
               </div>
             </div>
           </div>
           <div class="col-6 h-100" *ngIf="showPreview">
-            <ul class="list-group" *ngIf="formCollector">
+            <ul class="list-group" *ngIf="formHeaderCollector">
               <button
                 *ngIf="formControlNameCollector && formControlNameBackgroundColor && formControlNameTextColor && formControlNameSize && formControlNameAlign"
                 type="button" class="list-group-item cursor-default"
-                [ngStyle]="{'background-color': formCollector.get(formControlNameBackgroundColor)?.value,
-                       'color': formCollector.get(formControlNameTextColor)?.value,
-                       'font-size': formCollector.get(formControlNameSize)?.value,
-                       'text-align': formCollector.get(formControlNameAlign)?.value}"
-              >{{formCollector.get(formControlNameCollector)?.value}}</button>
+                [ngStyle]="{'background-color': formHeaderCollector.get(formControlNameBackgroundColor)?.value,
+                       'color': formHeaderCollector.get(formControlNameTextColor)?.value,
+                       'font-size': formHeaderCollector.get(formControlNameSize)?.value,
+                       'text-align': formHeaderCollector.get(formControlNameAlign)?.value}"
+              >{{formHeaderCollector.get(formControlNameCollector)?.value}}</button>
               <button class="list-group-item list-group-item-action">An item</button>
               <button class="list-group-item list-group-item-action">A second item</button>
               <button class="list-group-item list-group-item-action">A third item</button>
@@ -45,12 +48,46 @@
   <li [ngbNavItem]="2">
     <a ngbNavLink>New Button</a>
     <ng-template ngbNavContent>
-      <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-        farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-        ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-        helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
-        8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester
-        stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+      <div class="container-fluid h-100 mt-4">
+        <div class="row h-100">
+          <div class="col-6 h-100">
+            <div class="card">
+              <h5 class="card-header">{{('customize the buttons') | uppercase}}</h5>
+              <div class="card-body">
+                <app-card-options-ui
+                  [textSizes]="textButtonSizes"
+                  [isButton]="true"
+                  [formControlNameSize]="formControlNameSize"
+                  [formControlNameCollector]="formControlNameCollector"
+                  [formControlNameTextColor]="formControlNameTextColor"
+                  [formControlNameBackgroundColor]="formControlNameBackgroundColor"
+                  [formCollector]="formButtonCollector"
+                  [formControlNameAlign]="formControlNameAlign"
+                  [formControlNameLink]="formControlNameLink"
+                  [showPreview]="showPreview"
+                  (changeShowPreview)="changeShowPreview.emit()"
+                  (saveCollector)="saveButtonCollector.emit()"
+                ></app-card-options-ui>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 h-100" *ngIf="showPreview">
+            <ul class="list-group" *ngIf="formButtonCollector">
+              <button
+                style="background-color: #F7F7F7"
+                type="button" class="list-group-item cursor-default"
+              >Header Collector
+              </button>
+              <button class="list-group-item list-group-item-action"
+                      *ngIf="formControlNameCollector && formControlNameBackgroundColor && formControlNameTextColor && formControlNameSize && formControlNameAlign"
+                      [ngStyle]="{'background-color': formButtonCollector.get(formControlNameBackgroundColor)?.value,
+                       'color': formButtonCollector.get(formControlNameTextColor)?.value,
+                       'font-size': formButtonCollector.get(formControlNameSize)?.value,
+                       'text-align': formButtonCollector.get(formControlNameAlign)?.value}">{{formButtonCollector.get(formControlNameCollector)?.value}}</button>
+            </ul>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </li>
 </ul>

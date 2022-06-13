@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from "@angular/forms";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-add-new-link-page-ui',
@@ -9,12 +9,18 @@ import { FormGroup } from "@angular/forms";
 export class AddNewLinkPageUiComponent {
   @Input() active: number | undefined;
   @Input() showPreview: boolean | undefined;
-  @Input() formCollector: FormGroup | undefined;
+  @Input() formHeaderCollector: FormGroup | undefined;
+  @Input() formButtonCollector: FormGroup | undefined;
   @Input() formControlNameCollector: string | null = null;
   @Input() formControlNameBackgroundColor: string | null = null;
   @Input() formControlNameTextColor: string | null = null;
   @Input() formControlNameSize: string | null = null;
   @Input() formControlNameAlign: string | null = null;
-  @Input() textSizes: string[] | undefined;
+  @Input() formControlNameLink: string | null = null;
+  @Input() textHeaderSizes: string[] | undefined;
+  @Input() textButtonSizes: string[] | undefined;
+  @Output() changeShowPreview = new EventEmitter<void>();
+  @Output() saveHeaderCollector = new EventEmitter<void>();
+  @Output() saveButtonCollector = new EventEmitter<void>();
 
 }
