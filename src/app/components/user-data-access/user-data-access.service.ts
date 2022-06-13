@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from "@angular/fire/compat/database";
+import {AngularFireDatabase, SnapshotAction} from "@angular/fire/compat/database";
 import {BehaviorSubject, Observable} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {HeaderCollectorModal} from "../../utils";
@@ -48,5 +48,9 @@ export class UserDataAccessService {
 
   saveHeaderCollector(header: HeaderCollectorModal, id: string) {
     return this.afDataBase.list('/headers/' + id).push(header);
+  }
+
+  getHeaderCollector(id: string){
+    return this.afDataBase.list('/headers/' +id).snapshotChanges();
   }
 }

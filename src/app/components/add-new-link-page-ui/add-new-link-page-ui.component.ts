@@ -19,6 +19,7 @@ export class AddNewLinkPageUiComponent {
   @Input() formControlNameLink: string | null = null;
   @Input() textHeaderSizes: string[] | undefined;
   @Input() textButtonSizes: string[] | undefined;
+  @Input() collectors: any[] | undefined;
   @Output() changeShowPreview = new EventEmitter<void>();
   @Output() saveHeaderCollector = new EventEmitter<void>();
   @Output() saveButtonCollector = new EventEmitter<void>();
