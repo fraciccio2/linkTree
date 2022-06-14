@@ -72,7 +72,7 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
   });
   textHeaderSizes = ['12px', '14px', '16px', '18px', '20px', '22px', '24px', '26px', '28px'];
   textButtonSizes = ['12px', '14px', '16px', '18px', '20px', '22px'];
-  collectors: { data: HeaderCollectorModel, key: string | null }[] | undefined;
+  collectors: { value: HeaderCollectorModel, key: string | null }[] | undefined;
 
   constructor(private userDataAccess: UserDataAccessService,
               private toastService: ToastrService,
@@ -82,13 +82,7 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
   ngOnInit() {
     this.id = localStorage.getItem('userId');
     if(this.id){
-      this.userDataAccess.getHeaderCollector(this.id).pipe(map((collectors) =>{
-        return collectors.map((collector) =>{
-          const key = collector.payload.key;
-          const data = collector.payload.val() as HeaderCollectorModel;
-          return {key, data};
-        })
-      })).subscribe((collectors) => {
+      this.userDataAccess.getHeaderCollector(this.id).subscribe((collectors) => {
         this.collectors = collectors;
       });
     }

@@ -3,6 +3,6 @@ import {ButtonCollectorModel} from "./button-collector-model";
 
 export interface CollectorModel {
   header: HeaderCollectorModel;
-  buttons: ButtonCollectorModel["data"][];
+  buttons: {key: string, value: ButtonCollectorModel}[];
   key: string | null;
 }

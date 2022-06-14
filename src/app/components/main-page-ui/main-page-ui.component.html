@@ -3,18 +3,19 @@
   <div class="row row-cols-3">
     <ul class="list-group col" *ngFor="let collector of collectors">
       <button
+        [ngStyle]="{'background-color': collector.header.value.background_color, 'text-align': collector.header.value.align, 'text-color': collector.header.value.text_color, 'font-size': collector.header.value.text_size}"
         type="button" class="list-group-item cursor-default"
       >{{collector.header.name}}
-        <i class="bi bi-trash3 push-right cursor-pointer red" (click)="deleteCollector.emit(collector.key)"
+        <i class="bi bi-trash3 push-right cursor-pointer" (click)="deleteCollector.emit(collector.key)"
            ngbTooltip="Delete collector"></i>
       </button>
       <a
         target="_blank" rel="noreferrer noopener"
-        (contextmenu)="onRightClick($event)"
-        [ngStyle]="{'background-color': button.value.background_color, 'text-align': button.value.align, 'text-color': button.value.text_color, 'font-size': button.value.text_size}"
-        [href]="button.link" class="list-group-item list-group-item-action" aria-current="true"
+        (contextmenu)="onRightClick($event); buttonSelected.patchValue(button)"
+        [ngStyle]="{'background-color': button.value.data.value.background_color, 'text-align': button.value.data.value.align, 'text-color': button.value.data.value.text_color, 'font-size': button.value.data.value.text_size}"
+        [href]="button.value.data.link" class="list-group-item list-group-item-action" aria-current="true"
         *ngFor="let button of collector.buttons">
-        {{button.name}}
+        {{button.value.data.name}}
       </a>
     </ul>
   </div>

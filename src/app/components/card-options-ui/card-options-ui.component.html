@@ -3,7 +3,7 @@
     <label class="form-label" for="nameHeader">Name collector</label>
     <select class="form-select" id="nameHeader" [formControlName]="formControlNameKeyCollector">
       <option value="" disabled>Select a collector</option>
-      <option *ngFor="let collector of collectors" [value]="collector.key">{{collector.data.name}}</option>
+      <option *ngFor="let collector of collectors" [value]="collector.key">{{collector.value.name}}</option>
     </select>
   </div>
   <div class="mb-3">

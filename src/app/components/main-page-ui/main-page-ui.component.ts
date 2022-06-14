@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {CollectorModel} from "../../utils";
 import {MatMenuTrigger} from "@angular/material/menu";
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-main-page-ui',
@@ -9,6 +10,7 @@ import {MatMenuTrigger} from "@angular/material/menu";
 })
 export class MainPageUiComponent {
   @Input() collectors: CollectorModel[] | undefined;
+  @Input() buttonSelected!: FormControl;
   @Output() deleteCollector = new EventEmitter<string | null>();
   @Output() deleteButton = new EventEmitter<void>();
   @ViewChild(MatMenuTrigger) matMenuTrigger!: MatMenuTrigger;

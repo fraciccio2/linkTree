@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from "@angular/fire/compat/database";
+import {AngularFireDatabase, SnapshotAction} from "@angular/fire/compat/database";
 import {BehaviorSubject, Observable} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {ButtonCollectorModel, HeaderCollectorModel} from "../../utils";
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -50,19 +51,37 @@ export class UserDataAccessService {
     return this.afDataBase.list('/headers/' + id).push(header);
   }
 
-  getHeaderCollector(id: string) {
-    return this.afDataBase.list('/headers/' + id).snapshotChanges();
+  getHeaderCollector(id: string): Observable<{key: string | null; value: HeaderCollectorModel}[]> {
+    return this.afDataBase.list('/headers/' + id).snapshotChanges().pipe(
+      map(header => 
+        header.map(h => (
+          { key: h.payload.key, 
+            value: h.payload.val() 
+          } as {key: string | null; value: HeaderCollectorModel}))
+      )
+    );
   }
 
   saveButtonCollector(userId: string, headerId: string, button: ButtonCollectorModel) {
     return this.afDataBase.list('/buttons/' + userId + '/' + headerId).push(button);
   }
 
-  getButtonsCollector(userId: string): Observable<{ key: ButtonCollectorModel }[]> {
-    return this.afDataBase.list<{ key: ButtonCollectorModel }>('/buttons/' + userId).valueChanges();
+  getButtonsCollector(userId: string) {
+    return this.afDataBase.list<{ key: ButtonCollectorModel }>('/buttons/' + userId).snapshotChanges().pipe(
+      map(button => 
+        button.map(b => (
+          { headerKey: b.payload.key, 
+            value: b.payload.val() 
+          }))
+      )
+    );
   }
 
   deleteCollector(id: string, key: string) {
     return this.afDataBase.list('/headers/' + id + '/' + key).remove();
+  }
+
+  deleteButton(userId: string, headerId: string, key: string){
+    return this.afDataBase.list('/buttons/' +userId +'/' + headerId +'/' +key).remove();
   }
 }
