@@ -1,2 +1,4 @@
-export * from './dashboard-item-modal';
-export * from './header-collector-modal';
+export * from './dashboard-item-model';
+export * from './header-collector-model';
+export * from './button-collector-model';
+export * from './collector-model';

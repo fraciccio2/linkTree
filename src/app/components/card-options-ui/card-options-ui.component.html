@@ -1,7 +1,7 @@
 <form *ngIf="formCollector" [formGroup]="formCollector">
   <div class="mb-3" *ngIf="isButton">
     <label class="form-label" for="nameHeader">Name collector</label>
-    <select class="form-select" id="nameHeader">
+    <select class="form-select" id="nameHeader" [formControlName]="formControlNameKeyCollector">
       <option value="" disabled>Select a collector</option>
       <option *ngFor="let collector of collectors" [value]="collector.key">{{collector.data.name}}</option>
     </select>
@@ -47,13 +47,14 @@
       </div>
     </div>
   </div>
-  <div class="mb-3" *ngIf="isButton">
+  <div class="mb-3" *ngIf="isButton && formControlNameLink">
     <label class="form-label" for="linkText">Insert url</label>
     <input class="form-control" id="linkText" [formControlName]="formControlNameLink">
   </div>
+  {{showPreview}}
   <div class="mb-3 form-check">
     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked
-           (input)="changeShowPreview.emit()">
+           (input)="changeShowPreview.emit(showPreview)">
     <label class="form-check-label" for="flexCheckDefault">
       Show preview
     </label>

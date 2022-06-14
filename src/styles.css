@@ -54,12 +54,26 @@
   margin-top: 10%;
 }
 
-.center-img{
+.center-img {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 40%;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.push-right {
+  float: right;
+}
+
+.red {
+  color: red;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

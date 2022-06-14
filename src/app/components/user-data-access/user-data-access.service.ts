@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, SnapshotAction} from "@angular/fire/compat/database";
+import {AngularFireDatabase} from "@angular/fire/compat/database";
 import {BehaviorSubject, Observable} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {HeaderCollectorModal} from "../../utils";
+import {ButtonCollectorModel, HeaderCollectorModel} from "../../utils";
 
 @Injectable({
   providedIn: 'root'
@@ -46,11 +46,23 @@ export class UserDataAccessService {
     return this.afStorage.ref(name);
   }
 
-  saveHeaderCollector(header: HeaderCollectorModal, id: string) {
+  saveHeaderCollector(header: HeaderCollectorModel, id: string) {
     return this.afDataBase.list('/headers/' + id).push(header);
   }
 
-  getHeaderCollector(id: string){
-    return this.afDataBase.list('/headers/' +id).snapshotChanges();
+  getHeaderCollector(id: string) {
+    return this.afDataBase.list('/headers/' + id).snapshotChanges();
+  }
+
+  saveButtonCollector(userId: string, headerId: string, button: ButtonCollectorModel) {
+    return this.afDataBase.list('/buttons/' + userId + '/' + headerId).push(button);
+  }
+
+  getButtonsCollector(userId: string): Observable<{ key: ButtonCollectorModel }[]> {
+    return this.afDataBase.list<{ key: ButtonCollectorModel }>('/buttons/' + userId).valueChanges();
+  }
+
+  deleteCollector(id: string, key: string) {
+    return this.afDataBase.list('/headers/' + id + '/' + key).remove();
   }
 }

@@ -2,13 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserDataAccessService} from "../user-data-access/user-data-access.service";
 import {ToastrService} from "ngx-toastr";
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
+import {ButtonCollectorModel, HeaderCollectorModel} from "../../utils";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-new-link-page-feature',
   template: `
     <app-add-new-link-page-ui
-      [showPreview]="showPreview"
+      [showHeaderPreview]="showHeaderPreview"
+      [showButtonPreview]="showButtonPreview"
       [formHeaderCollector]="formHeaderCollector"
       [formButtonCollector]="formButtonCollector"
       [formControlNameBackgroundColor]="formControlNameBackgroundColor"
@@ -17,17 +20,20 @@ import { map } from 'rxjs/operators';
       [formControlNameSize]="formControlNameSize"
       [formControlNameAlign]="formControlNameAlign"
       [formControlNameLink]="formControlNameLink"
+      [formControlNameKeyCollector]="formControlNameKeyCollector"
       [textHeaderSizes]="textHeaderSizes"
       [textButtonSizes]="textButtonSizes"
       [collectors]="collectors"
-      (changeShowPreview)="changeShowPreview()"
+      (changeShowPreview)="changeShowPreview($event)"
       (saveHeaderCollector)="saveHeaderCollector()"
+      (saveButtonCollector)="saveButtonCollector()"
     ></app-add-new-link-page-ui>
   `,
   styles: []
 })
 export class AddNewLinkPageFeatureComponent implements OnInit {
-  showPreview = true;
+  showHeaderPreview = true;
+  showButtonPreview = true;
   id: string | null = null;
   public formControlNameCollector = 'name';
   private formControlHCollector = new FormControl('Example', [Validators.required, Validators.maxLength(35)]);
@@ -46,6 +52,8 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
   private formControlBAlign = new FormControl('left');
   public formControlNameLink = 'link';
   private formControlLink = new FormControl(undefined, Validators.required);
+  public formControlNameKeyCollector = 'keyCollector';
+  private formControlKeyCollector = new FormControl('', [Validators.required]);
   formHeaderCollector = new FormGroup({
     [this.formControlNameCollector]: this.formControlHCollector,
     [this.formControlNameBackgroundColor]: this.formControlHBackgroundColor,
@@ -60,13 +68,15 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
     [this.formControlNameSize]: this.formControlBSize,
     [this.formControlNameAlign]: this.formControlBAlign,
     [this.formControlNameLink]: this.formControlLink,
+    [this.formControlNameKeyCollector]: this.formControlKeyCollector,
   });
   textHeaderSizes = ['12px', '14px', '16px', '18px', '20px', '22px', '24px', '26px', '28px'];
   textButtonSizes = ['12px', '14px', '16px', '18px', '20px', '22px'];
-  collectors: any[] | undefined;
+  collectors: { data: HeaderCollectorModel, key: string | null }[] | undefined;
 
   constructor(private userDataAccess: UserDataAccessService,
-              private toastService: ToastrService) {
+              private toastService: ToastrService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -74,24 +84,22 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
     if(this.id){
       this.userDataAccess.getHeaderCollector(this.id).pipe(map((collectors) =>{
         return collectors.map((collector) =>{
-        const key = collector.payload.key;
-        const data = collector.payload.val();
-        return {key, data};
+          const key = collector.payload.key;
+          const data = collector.payload.val() as HeaderCollectorModel;
+          return {key, data};
         })
-      })).subscribe((collectors) =>{
+      })).subscribe((collectors) => {
         this.collectors = collectors;
       });
     }
-    //TODO sistemare qui
-    console.log(this.collectors);
   }
 
-  changeShowPreview() {
-    this.showPreview = !this.showPreview;
+  changeShowPreview(preview: boolean) {
+    preview = !preview;
   }
 
   saveHeaderCollector() {
-    const collector = {
+    const collector: HeaderCollectorModel = {
       name: this.formHeaderCollector.get(this.formControlNameCollector)?.value,
       value: {
         background_color: this.formHeaderCollector.get(this.formControlNameBackgroundColor)?.value,
@@ -103,6 +111,31 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
     if (this.id) {
       this.userDataAccess.saveHeaderCollector(collector, this.id).then(() => {
         this.toastService.success('Collector save with success');
+        this.router.navigate(['./admin']).catch(console.error);
+      }).catch(() => {
+        this.toastService.error('Error');
+      });
+    }
+  }
+
+  saveButtonCollector() {
+    const collector: ButtonCollectorModel = {
+      headerKey: this.formButtonCollector.get(this.formControlNameKeyCollector)?.value,
+      data: {
+        name: this.formButtonCollector.get(this.formControlNameCollector)?.value,
+        link: this.formButtonCollector.get(this.formControlNameLink)?.value,
+        value: {
+          background_color: this.formButtonCollector.get(this.formControlNameBackgroundColor)?.value,
+          text_color: this.formButtonCollector.get(this.formControlNameTextColor)?.value,
+          text_size: this.formButtonCollector.get(this.formControlNameSize)?.value,
+          align: this.formButtonCollector.get(this.formControlNameAlign)?.value
+        }
+      }
+    }
+    if (this.id) {
+      this.userDataAccess.saveButtonCollector(this.id, collector.headerKey, collector).then(() => {
+        this.toastService.success('Button save with success');
+        this.router.navigate(['./admin']).catch(console.error);
       }).catch(() => {
         this.toastService.error('Error');
       });

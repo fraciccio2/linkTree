@@ -29,6 +29,7 @@ import {
   AddNewLinkPageFeatureComponent
 } from './components/add-new-link-page-feature/add-new-link-page-feature.component';
 import {CardOptionsUiComponent} from './components/card-options-ui/card-options-ui.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {CardOptionsUiComponent} from './components/card-options-ui/card-options-
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MatMenuModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

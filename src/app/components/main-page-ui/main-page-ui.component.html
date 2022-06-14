@@ -1,1 +1,35 @@
-<p>main-page-ui works!</p>
+<div class="container">
+  <h1 class="mt-4 text-center">Your Collectors</h1>
+  <div class="row row-cols-3">
+    <ul class="list-group col" *ngFor="let collector of collectors">
+      <button
+        type="button" class="list-group-item cursor-default"
+      >{{collector.header.name}}
+        <i class="bi bi-trash3 push-right cursor-pointer red" (click)="deleteCollector.emit(collector.key)"
+           ngbTooltip="Delete collector"></i>
+      </button>
+      <a
+        target="_blank" rel="noreferrer noopener"
+        (contextmenu)="onRightClick($event)"
+        [ngStyle]="{'background-color': button.value.background_color, 'text-align': button.value.align, 'text-color': button.value.text_color, 'font-size': button.value.text_size}"
+        [href]="button.link" class="list-group-item list-group-item-action" aria-current="true"
+        *ngFor="let button of collector.buttons">
+        {{button.name}}
+      </a>
+    </ul>
+  </div>
+</div>
+<div style="visibility: hidden; position: fixed;" [style.left.px]="menuTopLeftPosition.x"
+     [style.top.px]="menuTopLeftPosition.y" [matMenuTriggerFor]="rightMenu"></div>
+<mat-menu #rightMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item>
+      <i class="bi bi-pencil"></i>
+      {{('Modify button')}}
+    </button>
+    <button mat-menu-item (click)="deleteButton.emit()">
+      <i class="bi bi-trash3"></i>
+      {{('Delete button')}}
+    </button>
+  </ng-template>
+</mat-menu>

@@ -8,7 +8,8 @@ import {FormGroup} from "@angular/forms";
 })
 export class AddNewLinkPageUiComponent {
   @Input() active: number | undefined;
-  @Input() showPreview: boolean | undefined;
+  @Input() showHeaderPreview: boolean | undefined;
+  @Input() showButtonPreview: boolean | undefined;
   @Input() formHeaderCollector: FormGroup | undefined;
   @Input() formButtonCollector: FormGroup | undefined;
   @Input() formControlNameCollector: string | null = null;
@@ -17,10 +18,11 @@ export class AddNewLinkPageUiComponent {
   @Input() formControlNameSize: string | null = null;
   @Input() formControlNameAlign: string | null = null;
   @Input() formControlNameLink: string | null = null;
+  @Input() formControlNameKeyCollector: string | null = null;
   @Input() textHeaderSizes: string[] | undefined;
   @Input() textButtonSizes: string[] | undefined;
   @Input() collectors: any[] | undefined;
-  @Output() changeShowPreview = new EventEmitter<void>();
+  @Output() changeShowPreview = new EventEmitter<boolean>();
   @Output() saveHeaderCollector = new EventEmitter<void>();
   @Output() saveButtonCollector = new EventEmitter<void>();
 

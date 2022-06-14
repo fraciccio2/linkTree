@@ -5,8 +5,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ChangeImageModalComponent, ChangeUsernameModalComponent, YesNoModalComponent} from "../../modals";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
-import {DashboardItemModal} from "../../utils";
-import { Router } from '@angular/router';
+import {DashboardItemModel} from "../../utils";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-side-feature',
@@ -33,7 +33,7 @@ export class DashboardSideFeatureComponent implements OnInit {
   formGroupNickname = new FormGroup({
     [this.formControlNameNickname]: this.formControlNickname
   });
-  dashboardItems: DashboardItemModal[] = [
+  dashboardItems: DashboardItemModel[] = [
     {class: 'bi bi-house-door mr-3', text: 'Home', href: './admin'},
     {class: 'bi bi-plus-circle mr-3', text: 'New link', href: './new-link'},
     {class: 'bi bi-wrench-adjustable-circle mr-3', text: 'Customers', href: './options'}

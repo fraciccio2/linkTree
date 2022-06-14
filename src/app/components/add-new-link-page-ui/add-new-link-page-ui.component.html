@@ -17,14 +17,14 @@
                   [formControlNameBackgroundColor]="formControlNameBackgroundColor"
                   [formCollector]="formHeaderCollector"
                   [formControlNameAlign]="formControlNameAlign"
-                  [showPreview]="showPreview"
-                  (changeShowPreview)="changeShowPreview.emit()"
+                  [showPreview]="showHeaderPreview"
+                  (changeShowPreview)="changeShowPreview.emit($event)"
                   (saveCollector)="saveHeaderCollector.emit()"
                 ></app-card-options-ui>
               </div>
             </div>
           </div>
-          <div class="col-6 h-100" *ngIf="showPreview">
+          <div class="col-6 h-100" *ngIf="showHeaderPreview">
             <ul class="list-group" *ngIf="formHeaderCollector">
               <button
                 *ngIf="formControlNameCollector && formControlNameBackgroundColor && formControlNameTextColor && formControlNameSize && formControlNameAlign"
@@ -64,15 +64,16 @@
                   [formCollector]="formButtonCollector"
                   [formControlNameAlign]="formControlNameAlign"
                   [formControlNameLink]="formControlNameLink"
-                  [showPreview]="showPreview"
+                  [formControlNameKeyCollector]="formControlNameKeyCollector"
+                  [showPreview]="showButtonPreview"
                   [collectors]="collectors"
-                  (changeShowPreview)="changeShowPreview.emit()"
+                  (changeShowPreview)="changeShowPreview.emit($event)"
                   (saveCollector)="saveButtonCollector.emit()"
                 ></app-card-options-ui>
               </div>
             </div>
           </div>
-          <div class="col-6 h-100" *ngIf="showPreview">
+          <div class="col-6 h-100" *ngIf="showButtonPreview">
             <ul class="list-group" *ngIf="formButtonCollector">
               <button
                 style="background-color: #F7F7F7"

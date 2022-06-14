@@ -16,9 +16,10 @@ export class CardOptionsUiComponent {
   @Input() formControlNameSize: string | null = null;
   @Input() formControlNameAlign: string | null = null;
   @Input() formControlNameLink: string | null = null;
+  @Input() formControlNameKeyCollector: string | null = null;
   @Input() textSizes: string[] | undefined;
   @Input() collectors: any[] | undefined;
-  @Output() changeShowPreview = new EventEmitter<void>();
+  @Output() changeShowPreview = new EventEmitter<boolean>();
   @Output() saveCollector = new EventEmitter<void>();
 
 }

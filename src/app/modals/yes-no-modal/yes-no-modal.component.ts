@@ -5,7 +5,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
   selector: 'app-yes-no-modal',
   template: `
     <div class="modal-header">
-      <h4 [innerHTML]="title" class="modal-title text-warning" id="modal-title"></h4>
+      <h4 [innerHTML]="title" class="modal-title text-danger" id="modal-title"></h4>
     </div>
 
     <div class="modal-body">

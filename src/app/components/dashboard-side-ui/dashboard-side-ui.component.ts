@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {DashboardItemModal} from "../../utils";
+import {DashboardItemModel} from "../../utils";
 
 @Component({
   selector: 'app-dashboard-side-ui',
@@ -9,7 +9,7 @@ import {DashboardItemModal} from "../../utils";
 export class DashboardSideUiComponent {
   @Input() nickname: string | null = null;
   @Input() userImage: string | null = null;
-  @Input() dashboardItems: DashboardItemModal[] | undefined;
+  @Input() dashboardItems: DashboardItemModel[] | undefined;
   @Input() sideActive: string | undefined | null;
   @Output() signOut = new EventEmitter<void>();
   @Output() changeUsername = new EventEmitter<void>();
