@@ -8,6 +8,7 @@ export interface ButtonCollectorModel {
       text_color: string;
       text_size: string;
       align: string;
-    }
-  }
+    };
+  };
+  ordering?: number;
 }

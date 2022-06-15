@@ -1,18 +1,24 @@
 <div class="container">
   <h1 class="mt-4 text-center">Your Collectors</h1>
   <div class="row row-cols-3">
-    <ul class="list-group col" *ngFor="let collector of collectors">
+    <ul class="list-group col mb-5" *ngFor="let collector of collectors" cdkDropList
+        (cdkDropListDropped)="drop.emit($event)" [cdkDropListData]="collector.buttons">
       <button
-        [ngStyle]="{'background-color': collector.header.value.background_color, 'text-align': collector.header.value.align, 'text-color': collector.header.value.text_color, 'font-size': collector.header.value.text_size}"
+        [ngStyle]="{'background-color': collector.header.value.background_color, 'text-align': collector.header.value.align, 'color': collector.header.value.text_color, 'font-size': collector.header.value.text_size}"
         type="button" class="list-group-item cursor-default"
       >{{collector.header.name}}
-        <i class="bi bi-trash3 push-right cursor-pointer" (click)="deleteCollector.emit(collector.key)"
-           ngbTooltip="Delete collector"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+          <i class="bi bi-trash3 cursor-pointer rounded-pill bg-white" (click)="deleteCollector.emit(collector.key)"
+             style="color: black"
+             container="body"
+             ngbTooltip="Delete collector"></i>
+        </span>
       </button>
       <a
+        cdkDrag
         target="_blank" rel="noreferrer noopener"
         (contextmenu)="onRightClick($event); buttonSelected.patchValue(button)"
-        [ngStyle]="{'background-color': button.value.data.value.background_color, 'text-align': button.value.data.value.align, 'text-color': button.value.data.value.text_color, 'font-size': button.value.data.value.text_size}"
+        [ngStyle]="{'background-color': button.value.data.value.background_color, 'text-align': button.value.data.value.align, 'color': button.value.data.value.text_color, 'font-size': button.value.data.value.text_size}"
         [href]="button.value.data.link" class="list-group-item list-group-item-action" aria-current="true"
         *ngFor="let button of collector.buttons">
         {{button.value.data.name}}
@@ -24,7 +30,7 @@
      [style.top.px]="menuTopLeftPosition.y" [matMenuTriggerFor]="rightMenu"></div>
 <mat-menu #rightMenu="matMenu">
   <ng-template matMenuContent>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="modifyButton.emit()">
       <i class="bi bi-pencil"></i>
       {{('Modify button')}}
     </button>

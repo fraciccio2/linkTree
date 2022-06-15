@@ -34,9 +34,9 @@ export class DashboardSideFeatureComponent implements OnInit {
     [this.formControlNameNickname]: this.formControlNickname
   });
   dashboardItems: DashboardItemModel[] = [
-    {class: 'bi bi-house-door mr-3', text: 'Home', href: './admin'},
-    {class: 'bi bi-plus-circle mr-3', text: 'New link', href: './new-link'},
-    {class: 'bi bi-wrench-adjustable-circle mr-3', text: 'Customers', href: './options'}
+    {class: 'bi bi-house-door mr-3', text: 'Home', href: './admin', routerLink: './admin'},
+    {class: 'bi bi-plus-circle mr-3', text: 'New link', href: './new-link', routerLink: './new-link/collector'},
+    {class: 'bi bi-wrench-adjustable-circle mr-3', text: 'Customers', href: './options', routerLink: './options'}
   ];
 
   constructor(private authService: AuthService,
@@ -105,13 +105,9 @@ export class DashboardSideFeatureComponent implements OnInit {
   }
 
   removeImage() {
-    const modal = this.modalService.open(YesNoModalComponent);
+    const modal = this.modalService.open(YesNoModalComponent, {centered: true});
     modal.componentInstance.title = 'WARNING';
     modal.componentInstance.message = 'Are you sure you want to delete the image?';
-    modal.componentInstance.ccsCancelClass = 'btn-danger';
-    modal.componentInstance.ccsConfirmClass = 'btn-success';
-    modal.componentInstance.yesLabel = 'Yes';
-    modal.componentInstance.noLabel = 'No';
     modal.result.then(() => {
       if (this.id) {
         this.userDataAccess.removeImageFromDatabase(this.id).then(() => {

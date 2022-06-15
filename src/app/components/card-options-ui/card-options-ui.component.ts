@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import { HeaderCollectorModel } from 'src/app/utils';
+import {HeaderCollectorModel} from 'src/app/utils';
 
 @Component({
   selector: 'app-card-options-ui',
@@ -10,6 +10,7 @@ import { HeaderCollectorModel } from 'src/app/utils';
 export class CardOptionsUiComponent {
   @Input() showPreview: boolean | undefined;
   @Input() isButton: boolean | undefined;
+  @Input() isEdit: boolean | undefined;
   @Input() formCollector: FormGroup | undefined;
   @Input() formControlNameCollector: string | null = null;
   @Input() formControlNameBackgroundColor: string | null = null;
@@ -19,8 +20,8 @@ export class CardOptionsUiComponent {
   @Input() formControlNameLink: string | null = null;
   @Input() formControlNameKeyCollector: string | null = null;
   @Input() textSizes: string[] | undefined;
-  @Input() collectors: {key: string; value: HeaderCollectorModel}[] | undefined;
-  @Output() changeShowPreview = new EventEmitter<boolean>();
+  @Input() collectors: { key: string; value: HeaderCollectorModel }[] | undefined;
+  @Output() changeShowPreview = new EventEmitter<void>();
   @Output() saveCollector = new EventEmitter<void>();
 
 }

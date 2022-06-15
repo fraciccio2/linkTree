@@ -1,5 +1,5 @@
 <form *ngIf="formCollector" [formGroup]="formCollector">
-  <div class="mb-3" *ngIf="isButton">
+  <div class="mb-3" *ngIf="isButton && !isEdit">
     <label class="form-label" for="nameHeader">Name collector</label>
     <select class="form-select" id="nameHeader" [formControlName]="formControlNameKeyCollector">
       <option value="" disabled>Select a collector</option>
@@ -34,6 +34,7 @@
     </div>
     <div class="col-6">
       <label for="allignText" class="form-label">Select where to align the text</label>
+      <br>
       <div class="btn-group" role="group" aria-label="Basic example" id="allignText">
         <button type="button" class="btn btn-outline-dark"
                 (click)="formCollector.patchValue({align: 'left'})"><i class="bi bi-text-left"></i>
@@ -51,10 +52,9 @@
     <label class="form-label" for="linkText">Insert url</label>
     <input class="form-control" id="linkText" [formControlName]="formControlNameLink">
   </div>
-  {{showPreview}}
   <div class="mb-3 form-check">
-    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked
-           (input)="changeShowPreview.emit(showPreview)">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [checked]="showPreview"
+           (input)="changeShowPreview.emit()">
     <label class="form-check-label" for="flexCheckDefault">
       Show preview
     </label>

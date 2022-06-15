@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, SnapshotAction} from "@angular/fire/compat/database";
+import {AngularFireDatabase} from "@angular/fire/compat/database";
 import {BehaviorSubject, Observable} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {ButtonCollectorModel, HeaderCollectorModel} from "../../utils";
-import { map } from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -53,11 +53,12 @@ export class UserDataAccessService {
 
   getHeaderCollector(id: string): Observable<{key: string | null; value: HeaderCollectorModel}[]> {
     return this.afDataBase.list('/headers/' + id).snapshotChanges().pipe(
-      map(header => 
+      map(header =>
         header.map(h => (
-          { key: h.payload.key, 
-            value: h.payload.val() 
-          } as {key: string | null; value: HeaderCollectorModel}))
+          {
+            key: h.payload.key,
+            value: h.payload.val()
+          } as { key: string | null; value: HeaderCollectorModel }))
       )
     );
   }
@@ -66,12 +67,17 @@ export class UserDataAccessService {
     return this.afDataBase.list('/buttons/' + userId + '/' + headerId).push(button);
   }
 
+  updateButtonCollector(userId: string, headerId: string, buttonId: string, button: ButtonCollectorModel) {
+    return this.afDataBase.object('/buttons/' + userId + '/' + headerId + '/' + buttonId).update(button);
+  }
+
   getButtonsCollector(userId: string) {
     return this.afDataBase.list<{ key: ButtonCollectorModel }>('/buttons/' + userId).snapshotChanges().pipe(
-      map(button => 
+      map(button =>
         button.map(b => (
-          { headerKey: b.payload.key, 
-            value: b.payload.val() 
+          {
+            headerKey: b.payload.key,
+            value: b.payload.val()
           }))
       )
     );
@@ -81,7 +87,21 @@ export class UserDataAccessService {
     return this.afDataBase.list('/headers/' + id + '/' + key).remove();
   }
 
-  deleteButton(userId: string, headerId: string, key: string){
-    return this.afDataBase.list('/buttons/' +userId +'/' + headerId +'/' +key).remove();
+  deleteButton(userId: string, headerId: string, key: string) {
+    return this.afDataBase.list('/buttons/' + userId + '/' + headerId + '/' + key).remove();
+  }
+
+  getButtonByKey(userId: string, headerId: string, buttonId: string): Observable<ButtonCollectorModel | null> {
+    return this.afDataBase.object<ButtonCollectorModel>('/buttons/' + userId + '/' + headerId + '/' + buttonId).valueChanges();
+  }
+
+  moveButton(userId: string, headerId: string, buttonList: { [key: string]: ButtonCollectorModel }) {
+    return this.afDataBase.object('/buttons/' + userId + '/' + headerId).set(buttonList);
+  }
+
+  getButtonsLength(userId: string, headerId: string) {
+    return this.afDataBase.list('/buttons/' + userId + '/' + headerId).valueChanges().pipe(map((list) => {
+      return list.length;
+    }), take(1));
   }
 }

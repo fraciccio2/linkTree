@@ -5,9 +5,9 @@
   </a>
   <hr>
   <ul class="nav nav-pills flex-column mb-auto cursor-pointer" *ngIf="sideActive">
-    <li class="nav-item" *ngFor="let item of dashboardItems" [routerLink]="item.href">
+    <li class="nav-item" *ngFor="let item of dashboardItems" [routerLink]="item.routerLink">
       <a class="nav-link"
-         [ngClass]="{'active': item.href.includes(sideActive), 'link-dark': !item.href.includes(sideActive)}">
+         [ngClass]="{'active': sideActive.includes(item.href.replace('.', '')), 'link-dark': !sideActive.includes(item.href.replace('.', ''))}">
         <i [class]="item.class"></i>{{item.text}}
       </a>
     </li>
@@ -21,11 +21,13 @@
       <img [src]="userImage" *ngIf="userImage" alt="" width="40px" height="40px" class="rounded-circle me-2">
       <strong>{{nickname}}</strong>
     </a>
-    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" ngbDropdownMenu>
+    <ul class="dropdown-menu text-small shadow cursor-pointer" aria-labelledby="dropdownUser2" ngbDropdownMenu>
       <li><a class="dropdown-item" ngbDropdownItem (click)="changeUsername.emit()">Change username</a></li>
       <li><a class="dropdown-item" ngbDropdownItem (click)="changeImage.emit()">Change image</a></li>
       <li><a class="dropdown-item" ngbDropdownItem (click)="removeImage.emit()" *ngIf="userImage">Remove image</a></li>
-      <li><hr class="dropdown-divider"></li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
       <li><a class="dropdown-item" ngbDropdownItem (click)="signOut.emit()">Sign out</a></li>
     </ul>
   </div>

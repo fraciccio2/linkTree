@@ -2,14 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserDataAccessService} from "../user-data-access/user-data-access.service";
 import {ToastrService} from "ngx-toastr";
-import {map} from 'rxjs/operators';
 import {ButtonCollectorModel, HeaderCollectorModel} from "../../utils";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-new-link-page-feature',
   template: `
     <app-add-new-link-page-ui
+      [active]="active"
+      [isEdit]="isEdit"
       [showHeaderPreview]="showHeaderPreview"
       [showButtonPreview]="showButtonPreview"
       [formHeaderCollector]="formHeaderCollector"
@@ -24,7 +25,8 @@ import {Router} from "@angular/router";
       [textHeaderSizes]="textHeaderSizes"
       [textButtonSizes]="textButtonSizes"
       [collectors]="collectors"
-      (changeShowPreview)="changeShowPreview($event)"
+      (changeShowPreviewH)="changeShowPreviewH()"
+      (changeShowPreviewB)="changeShowPreviewB()"
       (saveHeaderCollector)="saveHeaderCollector()"
       (saveButtonCollector)="saveButtonCollector()"
     ></app-add-new-link-page-ui>
@@ -35,6 +37,9 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
   showHeaderPreview = true;
   showButtonPreview = true;
   id: string | null = null;
+  active: number | undefined;
+  isEdit = false;
+  bKey: string | undefined;
   public formControlNameCollector = 'name';
   private formControlHCollector = new FormControl('Example', [Validators.required, Validators.maxLength(35)]);
   private formControlBCollector = new FormControl('Example', [Validators.required, Validators.maxLength(35)]);
@@ -76,20 +81,48 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
 
   constructor(private userDataAccess: UserDataAccessService,
               private toastService: ToastrService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.id = localStorage.getItem('userId');
-    if(this.id){
+    if (this.router.url.includes('/collector')) {
+      this.active = 1;
+    } else if (this.router.url.includes('/button')) {
+      this.active = 2;
+    }
+    this.bKey = this.route.snapshot.params['bKey'];
+    if (this.id) {
       this.userDataAccess.getHeaderCollector(this.id).subscribe((collectors) => {
         this.collectors = collectors;
-      });
+      })
+      if (this.bKey) {
+        const hKey = this.route.snapshot.queryParams;
+        this.userDataAccess.getButtonByKey(this.id, hKey['hKey'], this.bKey).subscribe((button) => {
+          this.isEdit = true;
+          if (button) {
+            this.formButtonCollector.patchValue({
+              [this.formControlNameKeyCollector]: button?.headerKey,
+              [this.formControlNameCollector]: button?.data.name,
+              [this.formControlNameBackgroundColor]: button?.data.value.background_color,
+              [this.formControlNameTextColor]: button?.data.value.text_color,
+              [this.formControlNameSize]: button?.data.value.text_size,
+              [this.formControlNameAlign]: button?.data.value.align,
+              [this.formControlNameLink]: button?.data.link,
+            })
+          }
+        })
+      }
     }
   }
 
-  changeShowPreview(preview: boolean) {
-    preview = !preview;
+  changeShowPreviewH() {
+    this.showHeaderPreview = !this.showHeaderPreview;
+  }
+
+  changeShowPreviewB() {
+    this.showButtonPreview = !this.showButtonPreview;
   }
 
   saveHeaderCollector() {
@@ -113,26 +146,39 @@ export class AddNewLinkPageFeatureComponent implements OnInit {
   }
 
   saveButtonCollector() {
-    const collector: ButtonCollectorModel = {
-      headerKey: this.formButtonCollector.get(this.formControlNameKeyCollector)?.value,
-      data: {
-        name: this.formButtonCollector.get(this.formControlNameCollector)?.value,
-        link: this.formButtonCollector.get(this.formControlNameLink)?.value,
-        value: {
-          background_color: this.formButtonCollector.get(this.formControlNameBackgroundColor)?.value,
-          text_color: this.formButtonCollector.get(this.formControlNameTextColor)?.value,
-          text_size: this.formButtonCollector.get(this.formControlNameSize)?.value,
-          align: this.formButtonCollector.get(this.formControlNameAlign)?.value
-        }
-      }
-    }
     if (this.id) {
-      this.userDataAccess.saveButtonCollector(this.id, collector.headerKey, collector).then(() => {
-        this.toastService.success('Button save with success');
-        this.router.navigate(['./admin']).catch(console.error);
-      }).catch(() => {
-        this.toastService.error('Error');
-      });
+      const headerKey = this.formButtonCollector.get(this.formControlNameKeyCollector)?.value;
+      this.userDataAccess.getButtonsLength(this.id, headerKey).subscribe((l) => {
+        const button: ButtonCollectorModel = {
+          headerKey: this.formButtonCollector.get(this.formControlNameKeyCollector)?.value,
+          data: {
+            name: this.formButtonCollector.get(this.formControlNameCollector)?.value,
+            link: this.formButtonCollector.get(this.formControlNameLink)?.value,
+            value: {
+              background_color: this.formButtonCollector.get(this.formControlNameBackgroundColor)?.value,
+              text_color: this.formButtonCollector.get(this.formControlNameTextColor)?.value,
+              text_size: this.formButtonCollector.get(this.formControlNameSize)?.value,
+              align: this.formButtonCollector.get(this.formControlNameAlign)?.value
+            }
+          }
+        }
+        if (this.isEdit && this.bKey) {
+          this.userDataAccess.updateButtonCollector(this.id!, button.headerKey, this.bKey, button).then(() => {
+            this.toastService.success('Button update successfully');
+            this.router.navigate(['./admin']).catch(console.error);
+          }).catch(() => {
+            this.toastService.error('Error');
+          })
+        } else {
+          button.ordering = l;
+          this.userDataAccess.saveButtonCollector(this.id!, button.headerKey, button).then(() => {
+            this.toastService.success('Button save successfully');
+            this.router.navigate(['./admin']).catch(console.error);
+          }).catch(() => {
+            this.toastService.error('Error');
+          });
+        }
+      })
     }
   }
 

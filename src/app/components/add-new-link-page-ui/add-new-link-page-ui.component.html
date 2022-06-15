@@ -1,16 +1,17 @@
 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs mt-2">
   <li [ngbNavItem]="1">
-    <a ngbNavLink>New Collector</a>
+    <a ngbNavLink [routerLink]="'../collector'">New Collector</a>
     <ng-template ngbNavContent>
       <div class="container-fluid h-100 mt-4">
         <div class="row h-100">
-          <div class="col-6 h-100">
+          <div class="col h-100">
             <div class="card">
               <h5 class="card-header">{{('customize the collector') | uppercase}}</h5>
               <div class="card-body">
                 <app-card-options-ui
                   [textSizes]="textHeaderSizes"
                   [isButton]="false"
+                  [isEdit]="isEdit"
                   [formControlNameSize]="formControlNameSize"
                   [formControlNameCollector]="formControlNameCollector"
                   [formControlNameTextColor]="formControlNameTextColor"
@@ -18,8 +19,8 @@
                   [formCollector]="formHeaderCollector"
                   [formControlNameAlign]="formControlNameAlign"
                   [showPreview]="showHeaderPreview"
-                  (changeShowPreview)="changeShowPreview.emit($event)"
                   (saveCollector)="saveHeaderCollector.emit()"
+                  (changeShowPreview)="changeShowPreviewH.emit()"
                 ></app-card-options-ui>
               </div>
             </div>
@@ -46,17 +47,18 @@
     </ng-template>
   </li>
   <li [ngbNavItem]="2">
-    <a ngbNavLink>New Button</a>
+    <a ngbNavLink [routerLink]="'../button'">New Button</a>
     <ng-template ngbNavContent>
       <div class="container-fluid h-100 mt-4">
         <div class="row h-100">
-          <div class="col-6 h-100">
+          <div class="col h-100">
             <div class="card">
               <h5 class="card-header">{{('customize the buttons') | uppercase}}</h5>
               <div class="card-body">
                 <app-card-options-ui
                   [textSizes]="textButtonSizes"
                   [isButton]="true"
+                  [isEdit]="isEdit"
                   [formControlNameSize]="formControlNameSize"
                   [formControlNameCollector]="formControlNameCollector"
                   [formControlNameTextColor]="formControlNameTextColor"
@@ -67,8 +69,8 @@
                   [formControlNameKeyCollector]="formControlNameKeyCollector"
                   [showPreview]="showButtonPreview"
                   [collectors]="collectors"
-                  (changeShowPreview)="changeShowPreview.emit($event)"
                   (saveCollector)="saveButtonCollector.emit()"
+                  (changeShowPreview)="changeShowPreviewB.emit()"
                 ></app-card-options-ui>
               </div>
             </div>

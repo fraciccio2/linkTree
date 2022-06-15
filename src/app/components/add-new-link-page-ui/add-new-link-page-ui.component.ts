@@ -8,6 +8,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class AddNewLinkPageUiComponent {
   @Input() active: number | undefined;
+  @Input() isEdit: boolean | undefined;
   @Input() showHeaderPreview: boolean | undefined;
   @Input() showButtonPreview: boolean | undefined;
   @Input() formHeaderCollector: FormGroup | undefined;
@@ -22,7 +23,8 @@ export class AddNewLinkPageUiComponent {
   @Input() textHeaderSizes: string[] | undefined;
   @Input() textButtonSizes: string[] | undefined;
   @Input() collectors: any[] | undefined;
-  @Output() changeShowPreview = new EventEmitter<boolean>();
+  @Output() changeShowPreviewH = new EventEmitter<void>();
+  @Output() changeShowPreviewB = new EventEmitter<void>();
   @Output() saveHeaderCollector = new EventEmitter<void>();
   @Output() saveButtonCollector = new EventEmitter<void>();
 
