@@ -77,3 +77,10 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.bg-image {
+  background-image: url(src/assets/images/light-grey-background-hd-0.jpeg);
+  background-repeat: repeat-y;
+  background-size: 100%, 100%;
+  position: relative;
+}
