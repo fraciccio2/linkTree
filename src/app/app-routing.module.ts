@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'sign-up', component: SignUpFeatureComponent, canActivate: [LoggedUserGuard]
   },
   {
-    path: 'home', component: HomePageFeatureComponent
+    path: 'home', component: HomePageFeatureComponent, canActivate: [LoggedUserGuard]
   },
   {
     path: 'admin', component: MainPageFeatureComponent, canActivate: [AuthLogInGuard]

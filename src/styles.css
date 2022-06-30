@@ -80,7 +80,6 @@ body {
 
 .bg-image {
   background-image: url(src/assets/images/light-grey-background-hd-0.jpeg);
-  background-repeat: repeat-y;
-  background-size: 100%, 100%;
-  position: relative;
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
